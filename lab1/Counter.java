@@ -1,229 +1,106 @@
-package lab1;
-
 
 /**
- * A class that represents a rational number. 
+ * The counter class implements a counter that will roll over to the initial
+ * value when it hits the maximum value.
  * 
  * @author Charles Hoot 
  * @version 4.0
-*/
-
-public class Rational
+ */
+public class Counter
 {
     // PUT PRIVATE DATA FIELDS HERE
-	// instance variables 
-	private int num; // numerator
-	private int den; // denominator
 
     /**
-     * The default constructor for objects of class Rational.  Creates the rational number 1.
+     * The default constructor for objects of class Counter.  Minimum is 0 and the maximum
+     * is the largest possible integer.
      */
-    public Rational()
-    {       
-    	num = 1;
-    	den = 1;
-    } 
-
-    
-    /**
-     * The alternate constructor for objects of class Rational.  Creates a rational number equivalent to n/d.
-     * @param n The numerator of the rational number.
-     * @param d The denominator of the rational number.
-     */    
-    // William & Yimeng
-    public Rational(int n, int d)
+    public Counter()
     {
-    	if (d == 0)
-    	{
-    		throw new ZeroDenominatorException("Denominator is Zero");
-    	}
-    	
-    	else
-    	{
-    		num = n;
-    		den = d;
-    	}
-    	
-    	normalize();
-    } // end of constructor
+        // ADD CODE FOR THE CONSTRUCTOR
+    }
     
     
     /**
-     * Get the value of the Numerator
+     * The alternate constructor for objects of class Counter.  The minimum and maximum values are given as parameters.
+     * The counter starts at the minimum value.
+     * @param min The minimum value that the counter can have
+     * @param max The maximum value that the counter can have
+     * */
+    public Counter(int min, int max)
+    {
+        // ADD CODE FOR THE ALTERNATE CONSTRUCTOR
+    }
+    
+    /**
+     * Determine if two counters are in the same state
      *
-     * @return     the value of the numerator
+     * @param  otherObject   the object to test against for equality
+     * @return     true if the objects are in the same state
      */
-    public int getNumerator()
+    public boolean equals(Object otherObject)
     {
-        return num;
-    }
-  
-    
-    /**
-     * Get the value of the Denominator
-     *
-     * @return     the value of the denominator
-     */
-    public int getDenominator()
-    {
-        return den;
-    }
-
-
-    /**
-     * Negate a rational number r
-     * 
-     * @return a new rational number that is negation of this number -r
-     */    
-    // William
-    public Rational negate()
-    {               
-    	return new Rational(-num, den);
-        
-    }
-
-
-    /**
-     * Invert a rational number r 
-     * 
-     * @return a new rational number that is 1/r.
-     */ 
-    // William
-    public Rational invert()
-    {               
-    	return new Rational(den, num);
-    }
-
-    /**
-     * Add two rational numbers
-     *
-     * @param other the second argument of the add
-     * @return a new rational number that is the sum of this and the other rational
-     */    
-    public Rational add(Rational other) // Yimeng
-    {
-        Rational newRational = new Rational(); // Yimeng
-        
-        int newNum = (this.num * other.den) + (other.num * this.den); // Yimeng
-        int newDen = this.den * other.den;
-        
-        newRational.num = newNum; // Yimeng
-        newRational.den = newDen; // Yimeng
-        // normalizing of newRational
-        newRational.normalize(); // William
-        
-        return newRational; // Yimeng
-    }
-    
-     /**
-     * Subtract a rational number t from this one r
-     *
-     * @param other the second argument of subtract
-     * @return a new rational number that is r-t
-     */    
-    public Rational subtract(Rational other) // Yimeng
-    {               
-        Rational newRational = new Rational(); // Yimeng
-        
-        int newNum = (this.num * other.den) - (other.num * this.den); // Yimeng
-        int newDen = this.den * other.den; // Yimeng
-        
-        newRational.num = newNum; // Yimeng
-        newRational.den = newDen; // Yimeng
-        // normalizing the newRational
-        newRational.normalize(); // William
-        
-        return newRational; // Yimeng
-    }
-
-    /**
-     * Multiply two rational numbers
-     *
-     * @param other the second argument of multiply
-     * @return a new rational number that is the sum of this object and the other rational.
-     */    
-    public Rational multiply(Rational other) // Yimeng
-    {       
-        Rational newRational = new Rational(); // Yimeng
-        
-        int newNum = this.num * other.num; // Yimeng
-        int newDen = this.den * other.den; // Yimeng
-        
-        newRational.num = newNum; // Yimeng
-        newRational.den = newDen; // Yimeng
-        // normalizing the newRational
-        newRational.normalize(); // William
-        
-        return newRational; // Yimeng
-    }
-        
- 
-     /**
-     * Divide this rational number r by another one t
-     *
-     * @param other the second argument of divide
-     * @return a new rational number that is r/t
-     */    
-    
-    public Rational divide(Rational other) // William
-    {               
-        Rational newRational = new Rational(); // Yimeng
-       
-        newRational = multiply (other.invert()); // William
-       
-        return newRational; // William
-    }
- 
- 
-    /**
-     * Put the rational number in normal form where the numerator
-     * and the denominator share no common factors.  Guarantee that only the numerator
-     * is negative.
-     *
-     */
-    // William
-    private void normalize()
-    {
-    	if (den < 0)
-    	{
-    		num = num * -1;
-    		den = den * -1;
-    	}
-    	if (num != 0)
-    	{
-    		// When num is negative value it will throw StackOverflowError if ABS is not used.
-    		int norm = gcd(Math.abs(num), den);
-    		num = num / norm;
-    		den = den / norm;
-    	}
-    	if (num == 0)
-    	{
-    		den = 1;
-    	}
-    }
-    		
-    
-    /**
-     * Recursively compute the greatest common divisor of two positive integers
-     *
-     * @param a the first argument of gcd
-     * @param b the second argument of gcd
-     * @return the gcd of the two arguments
-     */
-    private int gcd(int a, int b)
-    {
-        int result = 0;
-        if(a<b)
-            result = gcd(b,a);
-        else if(b==0)
-            result = a;
-        else
+        boolean result = true;
+        if (otherObject instanceof Counter)
         {
-            int remainder = a % b;
-            result = gcd(b, remainder);
+            // YOUR CODE GOES HERE
         }
         return result;
     }
-   
+    
+    
 
+    /**
+     * Increases the counter by one
+     */
+    public void increase()
+    {
+        // ADD CODE TO INCREASE THE VALUE OF THE COUNTER
+    }
+ 
+ 
+     /**
+     * Decreases the counter by one
+     */
+    public void decrease()
+    {
+        // ADD CODE TO INCREASE THE VALUE OF THE COUNTER
+    }
+    
+    /**
+     * Get the value of the counter
+     *
+     * @return     the current value of the counter
+     */
+    public int value()
+    {
+        // CHANGE THE RETURN TO GIVE THE CURRENT VALUE OF THE COUNTER
+        return -50;
+		
+    }
+    
+    
+    /**
+     * Accessor that allows the client to determine if the counter
+     *             rolled over on the last count
+     *
+     * @return     true if the counter rolled over
+     */
+    public boolean rolledOver()
+    {
+        // CHANGE THE RETURN TO THE ROLLOVER STATUS OF THE COUNTER
+        return true;
+    }
+    
+    /**
+     * Override the toString method to provide a more informative
+     * description of the counter
+     *
+     * @return     a descriptive string about the object
+     */
+    public String toString()
+    {
+        // CHANGE THE RETURN TO A DESCRIPTION OF THE COUNTER
+        return "";		
+    }
+ 
 }
