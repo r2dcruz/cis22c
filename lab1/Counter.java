@@ -9,6 +9,10 @@
 public class Counter
 {
     // PUT PRIVATE DATA FIELDS HERE
+	int minimum;
+	int maximum;
+	int state;
+	boolean rolled = false;
 
     /**
      * The default constructor for objects of class Counter.  Minimum is 0 and the maximum
@@ -17,6 +21,9 @@ public class Counter
     public Counter()
     {
         // ADD CODE FOR THE CONSTRUCTOR
+		minimum = 0;
+		maximum = 0;
+		state = 0;
     }
     
     
@@ -29,6 +36,13 @@ public class Counter
     public Counter(int min, int max)
     {
         // ADD CODE FOR THE ALTERNATE CONSTRUCTOR
+		if (min >= max) {
+			throw new CounterInitializationException("Min greater or equal to max");
+		} else {
+			minimum = min;
+			maximum = max;
+			state = min;
+		}
     }
     
     /**
@@ -43,6 +57,10 @@ public class Counter
         if (otherObject instanceof Counter)
         {
             // YOUR CODE GOES HERE
+			Counter c = (Counter)otherObject;
+			if (c.value() != state || rolledOver() != c.rolledOver()) {
+				return false;
+			}
         }
         return result;
     }
@@ -55,6 +73,13 @@ public class Counter
     public void increase()
     {
         // ADD CODE TO INCREASE THE VALUE OF THE COUNTER
+		if (state + 1 > maximum) {
+			state = minimum;
+			rolled = true;
+		} else {
+			rolled = false;
+			state = state + 1;
+		}
     }
  
  
@@ -64,6 +89,13 @@ public class Counter
     public void decrease()
     {
         // ADD CODE TO INCREASE THE VALUE OF THE COUNTER
+		if (state -1 < minimum) {
+			state = maximum;
+			rolled = true;
+		} else {
+			rolled = false;
+			state = state -1;
+		}
     }
     
     /**
@@ -74,7 +106,8 @@ public class Counter
     public int value()
     {
         // CHANGE THE RETURN TO GIVE THE CURRENT VALUE OF THE COUNTER
-        return -50;
+        // return -50; // default code
+		return state;
 		
     }
     
@@ -88,7 +121,8 @@ public class Counter
     public boolean rolledOver()
     {
         // CHANGE THE RETURN TO THE ROLLOVER STATUS OF THE COUNTER
-        return true;
+        // return true; // default code
+		return rolled;
     }
     
     /**
@@ -100,7 +134,7 @@ public class Counter
     public String toString()
     {
         // CHANGE THE RETURN TO A DESCRIPTION OF THE COUNTER
-        return "";		
+        return "Min:" + minimum + ", Max:" + maximum + ", State:" + state;		
     }
  
 }
