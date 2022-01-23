@@ -38,11 +38,8 @@ public class Rational
     		throw new ZeroDenominatorException("Denominator is Zero");
     	}
     	
-    	else
-    	{
-    		num = n;
-    		den = d;
-    	}
+    	num = n;
+    	den = d;
     	
     	normalize();
     } // end of constructor
@@ -189,17 +186,10 @@ public class Rational
     		num = num * -1;
     		den = den * -1;
     	}
-    	if (num != 0)
-    	{
-    		// When num is negative value it will throw StackOverflowError if ABS is not used.
-    		int norm = gcd(Math.abs(num), den);
-    		num = num / norm;
-    		den = den / norm;
-    	}
-    	if (num == 0)
-    	{
-    		den = 1;
-    	}
+    	// When num is negative value it will throw StackOverflowError if ABS is not used.
+    	int norm = gcd(Math.abs(num), den);
+    	num = num / norm;
+    	den = den / norm;
     }
     		
     
